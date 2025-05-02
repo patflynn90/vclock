@@ -71,7 +71,7 @@ pub fn (mut c Clock) run(center bool, color string) {
 
 		pad_spaces := ' '.repeat(horiz_pad)
 		for line in clock_lines {
-			println('${pad_spaces}${line}')
+			util.print_colored_line(color, '${pad_spaces}${line}')
 		}
 
 		time.sleep(c.interval)
