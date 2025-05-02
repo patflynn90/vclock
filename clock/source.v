@@ -38,7 +38,7 @@ pub fn (mut c Clock) tick() []string {
 	return ascii.render_string(timestr)
 }
 
-pub fn (mut c Clock) run(center bool) {
+pub fn (mut c Clock) run(center bool, color string) {
 	for {
 		util.clear_screen()
 		util.move_cursor_home()
@@ -71,7 +71,7 @@ pub fn (mut c Clock) run(center bool) {
 
 		pad_spaces := ' '.repeat(horiz_pad)
 		for line in clock_lines {
-			println('${pad_spaces}${line}')
+			util.print_colored_line(color, '${pad_spaces}${line}')
 		}
 
 		time.sleep(c.interval)
