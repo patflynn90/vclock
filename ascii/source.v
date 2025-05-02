@@ -1,6 +1,6 @@
 module ascii
 
-const digit_art = {
+const glyph_map = {
 	`0`: [
 		'█████',
 		'█   █',
@@ -112,7 +112,7 @@ pub fn render_string(s string) []string {
 	mut lines := []string{len: 5, init: ''}
 
 	for ch in s {
-		art := digit_art[ch] or { digit_art[` `] }
+		art := glyph_map[ch] or { glyph_map[` `] }
 		for i, row in art {
 			lines[i] += row + ' '
 		}
