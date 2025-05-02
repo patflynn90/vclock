@@ -29,6 +29,7 @@ pub fn new(format string, blink bool) Clock {
 pub fn (mut c Clock) tick(date bool) []string {
 	now := time.now()
 	mut timestr := now.custom_format(c.format)
+	mut datestr := [now.custom_format('dddd MMMM Do, YYYY')]
 
 	if c.blink && !c.blink_state {
 		timestr = timestr.replace(':', ' ')
@@ -36,7 +37,8 @@ pub fn (mut c Clock) tick(date bool) []string {
 
 	c.blink_state = !c.blink_state
 
-	return ascii.render_string(timestr)
+	mut time_art := ascii.render_string(timestr)
+	return if date { arrays.append(time_art, datestr) } else { time_art }
 }
 
 pub fn (mut c Clock) run(center bool, color string, date bool) {
