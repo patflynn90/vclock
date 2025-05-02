@@ -12,24 +12,30 @@ pub struct Clock {
 	format   string
 	blink    bool
 	interval time.Duration
+	centered bool
+	color    string
+	date     bool
 mut:
 	blink_state bool
 }
 
-pub fn new(format string, blink bool) Clock {
+pub fn new(format string, color string, centered bool, date bool, blink bool) Clock {
 	interval := if blink { 500 * time.millisecond } else { 1 * time.second }
 	return Clock{
 		format:      format
 		blink:       blink
 		interval:    interval
 		blink_state: true
+		centered:    centered
+		color:       color
+		date:        date
 	}
 }
 
-pub fn (mut c Clock) tick(date bool) []string {
+pub fn (mut c Clock) tick() []string {
 	now := time.now()
 	mut timestr := now.custom_format(c.format)
-	mut datestr := [now.custom_format('dddd MMMM Do, YYYY')]
+	mut datestr := if c.date { [now.custom_format('dddd MMMM Do, YYYY')] } else { [] }
 
 	if c.blink && !c.blink_state {
 		timestr = timestr.replace(':', ' ')
@@ -38,20 +44,20 @@ pub fn (mut c Clock) tick(date bool) []string {
 	c.blink_state = !c.blink_state
 
 	mut time_art := ascii.render_string(timestr)
-	return if date { arrays.append(time_art, datestr) } else { time_art }
+	return if c.date { arrays.append(time_art, datestr) } else { time_art }
 }
 
-pub fn (mut c Clock) run(center bool, color string, date bool) {
+pub fn (mut c Clock) run() {
 	for {
 		util.clear_screen()
 		util.move_cursor_home()
 
-		clock_lines := c.tick(date)
+		clock_lines := c.tick()
 		term_width, term_height := term.get_terminal_size()
 
 		clock_height := clock_lines.len
 
-		vert_pad := if center && term_height > clock_height {
+		vert_pad := if c.centered && term_height > clock_height {
 			(term_height - clock_height) / 2
 		} else {
 			0
@@ -62,8 +68,8 @@ pub fn (mut c Clock) run(center bool, color string, date bool) {
 		}
 
 		for line in clock_lines {
-			padded_line := if center { util.pad_line_to_center(line, term_width) } else { line }
-			util.print_colored_line(color, '${padded_line}')
+			padded_line := if c.centered { util.pad_line_to_center(line, term_width) } else { line }
+			util.print_colored_line(c.color, '${padded_line}')
 		}
 
 		time.sleep(c.interval)
