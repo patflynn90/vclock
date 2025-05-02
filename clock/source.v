@@ -1,5 +1,6 @@
 module clock
 
+import term
 import time
 import ascii
 import util
@@ -37,13 +38,42 @@ pub fn (mut c Clock) tick() []string {
 	return ascii.render_string(timestr)
 }
 
-pub fn (mut c Clock) run() {
+pub fn (mut c Clock) run(center bool) {
 	for {
 		util.clear_screen()
 		util.move_cursor_home()
-		for line in c.tick() {
-			println(line)
+
+		clock_lines := c.tick()
+		term_width, term_height := term.get_terminal_size()
+
+		clock_height := clock_lines.len
+		mut clock_width := if clock_lines.len > 0 {
+			clock_lines[0].runes().len
+		} else {
+			0
 		}
+
+		vert_pad := if center && term_height > clock_height {
+			(term_height - clock_height) / 2
+		} else {
+			0
+		}
+
+		horiz_pad := if center && term_width > clock_width {
+			(term_width - clock_width) / 2
+		} else {
+			0
+		}
+
+		for _ in 0 .. vert_pad {
+			println('')
+		}
+
+		pad_spaces := ' '.repeat(horiz_pad)
+		for line in clock_lines {
+			println('${pad_spaces}${line}')
+		}
+
 		time.sleep(c.interval)
 	}
 }
