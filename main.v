@@ -14,8 +14,8 @@ fn main() {
 	mut c := clock.new('hh:mmA', true)
 
 	mut ts := termctl.TermState{}
-	ts.enable()
-	defer { ts.disable() }
+	ts.enable_input_hiding()
+	defer { ts.disable_input_hiding() }
 
 	c.run(centered_output, output_color)
 }
