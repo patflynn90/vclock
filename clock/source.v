@@ -1,5 +1,6 @@
 module clock
 
+import arrays
 import term
 import time
 import ascii
@@ -25,7 +26,7 @@ pub fn new(format string, blink bool) Clock {
 	}
 }
 
-pub fn (mut c Clock) tick() []string {
+pub fn (mut c Clock) tick(date bool) []string {
 	now := time.now()
 	mut timestr := now.custom_format(c.format)
 
@@ -38,12 +39,12 @@ pub fn (mut c Clock) tick() []string {
 	return ascii.render_string(timestr)
 }
 
-pub fn (mut c Clock) run(center bool, color string) {
+pub fn (mut c Clock) run(center bool, color string, date bool) {
 	for {
 		util.clear_screen()
 		util.move_cursor_home()
 
-		clock_lines := c.tick()
+		clock_lines := c.tick(date)
 		term_width, term_height := term.get_terminal_size()
 
 		clock_height := clock_lines.len
