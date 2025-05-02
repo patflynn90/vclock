@@ -1,9 +1,8 @@
 module main
 
-import ascii
+import clock
 
 fn main() {
-	for line in ascii.render_string('12:34') {
-		println(line)
-	}
+	mut c := clock.new('HH:mm', true)
+	c.run()
 }
