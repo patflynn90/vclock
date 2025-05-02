@@ -47,20 +47,9 @@ pub fn (mut c Clock) run(center bool, color string) {
 		term_width, term_height := term.get_terminal_size()
 
 		clock_height := clock_lines.len
-		mut clock_width := if clock_lines.len > 0 {
-			clock_lines[0].runes().len - 1
-		} else {
-			0
-		}
 
 		vert_pad := if center && term_height > clock_height {
 			(term_height - clock_height) / 2
-		} else {
-			0
-		}
-
-		horiz_pad := if center && term_width > clock_width {
-			(term_width - clock_width) / 2
 		} else {
 			0
 		}
@@ -69,9 +58,9 @@ pub fn (mut c Clock) run(center bool, color string) {
 			println('')
 		}
 
-		pad_spaces := ' '.repeat(horiz_pad)
 		for line in clock_lines {
-			util.print_colored_line(color, '${pad_spaces}${line}')
+			padded_line := if center { util.pad_line_to_center(line, term_width) } else { line }
+			util.print_colored_line(color, '${padded_line}')
 		}
 
 		time.sleep(c.interval)

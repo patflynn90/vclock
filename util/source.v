@@ -24,3 +24,14 @@ pub fn print_colored_line(color string, line string) {
 	}
 	println(colored_line)
 }
+
+pub fn pad_line_to_center(line string, width int) string {
+	line_length := line.runes().len
+	if width < line_length {
+		return line
+	}
+
+	padding := (width - line_length) / 2
+	pad_spaces := ' '.repeat(padding)
+	return '${pad_spaces}${line}'
+}
