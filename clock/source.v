@@ -48,7 +48,7 @@ pub fn (mut c Clock) run(center bool) {
 
 		clock_height := clock_lines.len
 		mut clock_width := if clock_lines.len > 0 {
-			clock_lines[0].runes().len
+			clock_lines[0].runes().len - 1
 		} else {
 			0
 		}
