@@ -10,6 +10,7 @@ pub struct Clock {
 	// format is V time custom_format string
 	// see https://modules.vlang.io/time.html#Time.custom_format
 	format   string
+	seconds  bool
 	blink    bool
 	interval time.Duration
 	centered bool
@@ -19,10 +20,12 @@ mut:
 	blink_state bool
 }
 
-pub fn new(format string, color string, centered bool, date bool, blink bool) Clock {
+pub fn new(seconds bool, color string, centered bool, date bool, blink bool) Clock {
 	interval := if blink { 500 * time.millisecond } else { 1 * time.second }
+	format := if seconds { 'hh:mm:ssA' } else { 'hh:mmA' }
 	return Clock{
 		format:      format
+		seconds:     seconds
 		blink:       blink
 		interval:    interval
 		blink_state: true

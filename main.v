@@ -12,10 +12,9 @@ fn main() {
 	clock_centering := fp.bool('nocenter', 0, false, '', fc)
 	clock_date := fp.bool('nodate', `d`, false, '', fc)
 	clock_blink := fp.bool('noblink', `b`, false, '', fc)
+	clock_seconds := fp.bool('seconds', `s`, false, '', fc)
 
-	clock_format := 'hh:mmA'
-
-	mut c := clock.new(clock_format, // clock format
+	mut c := clock.new(clock_seconds, // clock format
 	 clock_color, // color of clock display (if any)
 	 !clock_centering, // should output be centered in terminal
 	 !clock_date, // should date be displayed
