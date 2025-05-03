@@ -10,7 +10,6 @@ import util
 pub struct Clock {
 	// format is V time custom_format string
 	// see https://modules.vlang.io/time.html#Time.custom_format
-	format   string
 	seconds  bool
 	blink    bool
 	interval time.Duration
@@ -18,6 +17,7 @@ pub struct Clock {
 	color    string
 	date     bool
 mut:
+	format      string
 	blink_state bool
 }
 
