@@ -1,7 +1,7 @@
 Module {
 	name: 'vclock'
-	description: 'vclock'
-	version: '0.0.0'
+	description: 'Colorful terminal clock with ASCII art digits'
+	version: '0.1.0'
 	license: 'MIT'
 	dependencies: []
 }
