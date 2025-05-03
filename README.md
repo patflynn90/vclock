@@ -2,13 +2,7 @@
 
 Colorful, resize-aware, ASCII-art clock for your terminal &mdash; written in [V](https://vlang.io).
 
-```
-  ██  █████       ██  █   █ █████ ██ ██
-   █      █  █     █  █   █ █   █ ██ ██
-   █  █████        █  █████ █████ █ █ █
-   █  █      █     █      █ █   █ █   █
- ████ █████      ████     █ █   █ █   █
-```
+![vclock demo](docs/images/vclock.gif)
 
 *Works on Linux, macOS, and any ANSI-capable terminal.*
 
