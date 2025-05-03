@@ -1,5 +1,6 @@
 module clock
 
+import cli
 import arrays
 import term
 import time
@@ -20,18 +21,24 @@ mut:
 	blink_state bool
 }
 
-pub fn new(seconds bool, color string, centered bool, date bool, blink bool) Clock {
-	interval := if blink { 500 * time.millisecond } else { 1 * time.second }
-	format := if seconds { 'hh:mm:ssA' } else { 'hh:mmA' }
+pub fn new(cfg cli.Config) Clock {
+	interval := if cfg.blink {
+		500 * time.millisecond
+	} else if cfg.show_seconds {
+		1 * time.second
+	} else {
+		1 * time.minute
+	}
+	format := if cfg.show_seconds { 'hh:mm:ssA' } else { 'hh:mmA' }
 	return Clock{
 		format:      format
-		seconds:     seconds
-		blink:       blink
+		seconds:     cfg.show_seconds
+		blink:       cfg.blink
 		interval:    interval
 		blink_state: true
-		centered:    centered
-		color:       color
-		date:        date
+		centered:    cfg.centered
+		color:       cfg.color
+		date:        cfg.show_date
 	}
 }
 
