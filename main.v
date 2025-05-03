@@ -1,25 +1,12 @@
 module main
 
-import flag
-import os
 import clock
 import termctl
+import cli
 
 fn main() {
-	mut fp := flag.new_flag_parser(os.args)
-	fc := flag.FlagConfig{}
-	clock_color := fp.string('color', `c`, 'none', '', fc)
-	clock_centering := fp.bool('nocenter', 0, false, '', fc)
-	clock_date := fp.bool('nodate', `d`, false, '', fc)
-	clock_blink := fp.bool('noblink', `b`, false, '', fc)
-	clock_seconds := fp.bool('seconds', `s`, false, '', fc)
-
-	mut c := clock.new(clock_seconds, // clock format
-	 clock_color, // color of clock display (if any)
-	 !clock_centering, // should output be centered in terminal
-	 !clock_date, // should date be displayed
-	 !clock_blink // should the clock clock blink
-	 )
+	cfg := cli.parse_args()
+	mut c := clock.new(cfg)
 
 	mut ts := termctl.TermState{}
 	ts.enable_input_hiding()
