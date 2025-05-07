@@ -29,7 +29,11 @@ pub fn new(cfg cli.Config) Clock {
 	} else {
 		1 * time.minute
 	}
-	format := if cfg.show_seconds { 'hh:mm:ssA' } else { 'hh:mmA' }
+	format := if cfg.twenty_four {
+		if cfg.show_seconds { 'HH:mm:ss' } else { 'HH:mm' }
+	} else {
+		if cfg.show_seconds { 'hh:mm:ssA' } else { 'hh:mmA' }
+	}
 	return Clock{
 		format:      format
 		seconds:     cfg.show_seconds
