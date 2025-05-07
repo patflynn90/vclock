@@ -79,3 +79,21 @@ fn test_centering_and_color_propagation() {
 	assert !c.centered
 	assert c.color == 'green'
 }
+
+fn test_24h_format_without_seconds() {
+	cfg := cli.Config{
+		twenty_four:  true
+		show_seconds: false
+	}
+	c := new(cfg)
+	assert c.format == 'HH:mm'
+}
+
+fn test_24h_format_with_seconds() {
+	cfg := cli.Config{
+		twenty_four:  true
+		show_seconds: true
+	}
+	c := new(cfg)
+	assert c.format == 'HH:mm:ss'
+}
